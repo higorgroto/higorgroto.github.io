@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #0d1117;
+    --color-bg-secondary: #161b22;
+    --color-bg-tertiary: #21262d;
+    --color-border: #30363d;
+    --color-border-subtle: #21262d;
+    --color-text: #c9d1d9;
+    --color-text-secondary: #8b949e;
+    --color-text-muted: #6e7681;
+    --color-accent: #58a6ff;
+    --color-success: #3fb950;
+    --color-warning: #d29922;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(88, 166, 255, 0.3);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+@layer components {
+  .prose-custom {
+    @apply text-github-text leading-relaxed;
+  }
+
+  .prose-custom h1 {
+    @apply text-3xl font-semibold text-white mt-12 mb-6 pb-4 border-b border-github-border;
+  }
+
+  .prose-custom h2 {
+    @apply text-2xl font-semibold text-white mt-10 mb-4;
+  }
+
+  .prose-custom h3 {
+    @apply text-xl font-semibold text-white mt-8 mb-3;
+  }
+
+  .prose-custom p {
+    @apply mb-4 text-github-text-secondary;
+  }
+
+  .prose-custom ul {
+    @apply list-disc pl-6 mb-4 text-github-text-secondary;
+  }
+
+  .prose-custom ol {
+    @apply list-decimal pl-6 mb-4 text-github-text-secondary;
+  }
+
+  .prose-custom li {
+    @apply mb-1;
+  }
+
+  .prose-custom a {
+    @apply text-github-accent hover:underline;
+  }
+
+  .prose-custom img {
+    @apply rounded-image my-6 max-w-full;
+  }
+
+  .prose-custom code {
+    @apply bg-github-bg-tertiary px-1.5 py-0.5 rounded text-sm font-mono text-github-accent;
+  }
+
+  .prose-custom pre {
+    @apply bg-github-bg-secondary p-4 rounded-card overflow-x-auto my-6;
+  }
+
+  .prose-custom pre code {
+    @apply bg-transparent px-0 py-0 text-github-text;
+  }
+
+  .prose-custom blockquote {
+    @apply border-l-4 border-github-border pl-4 italic text-github-text-muted my-6;
+  }
+
+  .prose-custom hr {
+    @apply border-github-border my-8;
+  }
+
+  .prose-custom table {
+    @apply w-full border-collapse my-6;
+  }
+
+  .prose-custom th,
+  .prose-custom td {
+    @apply border border-github-border px-4 py-2 text-left;
+  }
+
+  .prose-custom th {
+    @apply bg-github-bg-secondary font-semibold text-white;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

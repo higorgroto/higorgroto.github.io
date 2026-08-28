@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import SeoHead from '../components/SeoHead.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { getLang } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  slug?: string;
+  date?: Date;
+}
+
+const { title, description, image, type, slug, date } = Astro.props;
+const lang = getLang(new URL(Astro.request.url));
+---
+
+<!DOCTYPE html>
+<html lang={lang === 'pt' ? 'pt-BR' : 'en-US'} class="dark">
+  <head>
+    <SeoHead 
+      title={title} 
+      description={description} 
+      image={image} 
+      lang={lang} 
+      type={type}
+      slug={slug}
+      date={date}
+    />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>" />
+  </head>
+  <body class="min-h-screen bg-github-bg text-github-text antialiased">
+    <div class="lg:flex">
+      <Sidebar lang={lang} />
+
+      <main class="flex-1 lg:ml-sidebar">
+        <div class="max-w-content mx-auto px-5 sm:px-8 lg:px-12 py-8 lg:py-14 pt-20 lg:pt-14">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

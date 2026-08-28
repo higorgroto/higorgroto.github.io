@@ -1,0 +1,47 @@
+---
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  video: {
+    type: 'local' | 'youtube';
+    src: string;
+    title?: string;
+    title_en?: string;
+  };
+  lang: Lang;
+}
+
+const { video, lang } = Astro.props;
+
+const title = lang === 'en' && video.title_en ? video.title_en : (video.title || '');
+---
+
+<div class="my-6">
+  {video.type === 'youtube' ? (
+    <div class="aspect-video rounded-image overflow-hidden bg-github-bg-tertiary">
+      <iframe
+        src={`https://www.youtube.com/embed/${video.src}`}
+        title={title}
+        class="w-full h-full"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+    </div>
+  ) : (
+    <div class="aspect-video rounded-image overflow-hidden bg-github-bg-tertiary">
+      <video
+        controls
+        class="w-full h-full"
+        preload="metadata"
+        playsinline
+      >
+        <source src={video.src} type="video/mp4" />
+      </video>
+    </div>
+  )}
+  {title && (
+    <p class="mt-2 text-sm text-github-text-muted text-center">{title}</p>
+  )}
+</div>

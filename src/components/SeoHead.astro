@@ -1,0 +1,80 @@
+---
+import type { Lang } from '../i18n/ui';
+import { t, defaultLang } from '../i18n/ui';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  lang: Lang;
+  type?: 'website' | 'article';
+  slug?: string;
+  date?: Date;
+}
+
+const { 
+  title, 
+  description, 
+  image = '/images/og-default.jpg',
+  lang,
+  type = 'website',
+  slug,
+  date,
+} = Astro.props;
+
+const siteTitle = t(lang, 'site.title');
+const siteDesc = t(lang, 'site.description');
+const pageTitle = title ? `${title} — Higor Groto` : siteTitle;
+const pageDesc = description || siteDesc;
+const canonical = `https://higorgroto.github.io${slug || ''}`;
+const ogImage = `https://higorgroto.github.io${image}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content={pageDesc} />
+<meta name="author" content="Higor Cristian Groto" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDesc} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+<meta property="og:site_name" content="Higor Groto" />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonical} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDesc} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': type === 'article' ? 'TechArticle' : 'WebSite',
+  name: pageTitle,
+  description: pageDesc,
+  url: canonical,
+  image: ogImage,
+  author: {
+    '@type': 'Person',
+    name: 'Higor Cristian Groto',
+    jobTitle: 'Control and Automation Engineer',
+    url: 'https://higorgroto.github.io',
+    sameAs: [
+      'https://github.com/higorgroto',
+      'https://linkedin.com/in/higor-groto',
+      'https://instagram.com/higorgroto',
+    ],
+  },
+  ...(date && { datePublished: date.toISOString() }),
+})} />
+
+<title>{pageTitle}</title>
+
+<link rel="sitemap" href="/sitemap-index.xml" />
