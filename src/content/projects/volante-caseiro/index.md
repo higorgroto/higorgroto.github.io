@@ -5,7 +5,6 @@ description: "Volante caseiro para simuladores, com 12 botões frontais e 4 borb
 description_en: "Homemade steering wheel for sim racing, with 12 front buttons and 4 magnetic paddle shifters, all programmable. The frame is 3D printed in PETG and PLA and wrapped in carbon-fiber-style vinyl. The electronics run on an ESP32-S2 Lolin Mini, using the chip's native USB (USB.h and USBHID.h) to present itself to Windows as a 16-button HID controller, with no external controller boards. Rear USB-C connector and an automotive quick release for fast mounting."
 excerpt: "Volante caseiro com 16 entradas digitais programáveis, eletrônica ESP32-S2 e USB HID nativo — sem placas controladoras externas."
 excerpt_en: "Homemade steering wheel with 16 programmable digital inputs, ESP32-S2 electronics, and native USB HID — no external controller boards."
-status: "concluido"
 date: 2026-08-28
 cover: "./cover.webp"
 search: "volante caseiro homemade steering wheel esp32 s2 usb hid botões switches paddle shift quick release impressão 3d petg pla fibra de carbono"

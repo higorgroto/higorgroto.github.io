@@ -1,5 +1,5 @@
 ---
-import ProjectDetail from '../../components/ProjectDetail.astro';
+import ProjectDetail from '../../../components/ProjectDetail.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -13,4 +13,4 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 ---
 
-<ProjectDetail project={project} lang="pt" />
+<ProjectDetail project={project} lang="en" />

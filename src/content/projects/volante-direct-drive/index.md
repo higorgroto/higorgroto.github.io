@@ -5,7 +5,6 @@ description: "Base de volante Direct Drive utilizando motor de hoverboard desenv
 description_en: "Direct Drive steering wheel system using hoverboard motor developed for simulators."
 excerpt: "Volante Direct Drive de alta performance para simuladores de corrida, utilizando motor de hoverboard."
 excerpt_en: "High-performance Direct Drive steering wheel for racing simulators, using hoverboard motor."
-status: "em-andamento"
 date: 2026-07-01
 cover: "./cover.webp"
 search: "volante direct drive simulador corrida hoverboard motor ffb force feedback"

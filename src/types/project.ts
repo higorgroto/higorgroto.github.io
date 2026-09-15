@@ -5,7 +5,6 @@ export interface ProjectFrontmatter {
   description_en: string;
   excerpt: string;
   excerpt_en: string;
-  status: 'concluido' | 'em-andamento';
   date: Date;
   cover: string;
   gallery?: string[];

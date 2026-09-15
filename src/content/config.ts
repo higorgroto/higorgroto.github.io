@@ -17,7 +17,6 @@ const projects = defineCollection({
       description_en: z.string(),
       excerpt: z.string(),
       excerpt_en: z.string(),
-      status: z.enum(['concluido', 'em-andamento']),
       date: z.coerce.date(),
 
       cover: image().optional(),
@@ -28,4 +27,10 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { projects };
+// English bodies for the projects above. Each file is named after the project
+// slug and holds only the translated Markdown body (no frontmatter).
+const projectsEn = defineCollection({
+  type: 'content',
+});
+
+export const collections = { projects, 'projects-en': projectsEn };

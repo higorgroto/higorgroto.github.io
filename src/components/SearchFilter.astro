@@ -7,12 +7,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-
-const filters = [
-  { key: 'all', label: t(lang, 'projects.filter.all') },
-  { key: 'concluido', label: t(lang, 'projects.filter.completed') },
-  { key: 'em-andamento', label: t(lang, 'projects.filter.ongoing') },
-];
 ---
 
 <div class="space-y-4 mb-10">
@@ -20,49 +14,33 @@ const filters = [
     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-github-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
       <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
     </svg>
-    <input 
-      type="text" 
+    <input
+      type="text"
       id="project-search"
       placeholder={t(lang, 'projects.search')}
       class="w-full pl-10 pr-4 py-2.5 bg-github-bg-secondary border border-github-border-subtle rounded-lg text-sm text-github-text placeholder-github-text-muted focus:outline-none focus:border-github-border focus:ring-1 focus:ring-github-border transition-all"
     />
   </div>
-
-  <div class="flex flex-wrap gap-2" id="filter-buttons">
-    {filters.map((f) => (
-      <button 
-        data-filter={f.key}
-        class="filter-btn px-4 py-1.5 rounded-full text-sm border border-github-border-subtle bg-github-bg-secondary text-github-text-secondary hover:border-github-border hover:text-white transition-all data-[active=true]:bg-github-bg-tertiary data-[active=true]:text-white data-[active=true]:border-github-border"
-        data-active={f.key === 'all' ? 'true' : 'false'}
-      >
-        {f.label}
-      </button>
-    ))}
-  </div>
 </div>
 
 <script>
   const searchInput = document.getElementById('project-search');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('[data-project-status]');
+  const projectCards = document.querySelectorAll('[data-search]');
   const noResults = document.getElementById('no-results');
 
-  let activeFilter = 'all';
   let searchQuery = '';
 
   function updateVisibility() {
     let visibleCount = 0;
     projectCards.forEach(card => {
-      const status = card.getAttribute('data-project-status') || '';
       const searchData = card.getAttribute('data-search') || '';
       const title = card.getAttribute('data-title') || '';
 
-      const matchesFilter = activeFilter === 'all' || status === activeFilter;
-      const matchesSearch = !searchQuery || 
+      const matchesSearch = !searchQuery ||
         searchData.toLowerCase().includes(searchQuery.toLowerCase()) ||
         title.toLowerCase().includes(searchQuery.toLowerCase());
 
-      if (matchesFilter && matchesSearch) {
+      if (matchesSearch) {
         card.style.display = '';
         visibleCount++;
       } else {
@@ -75,17 +53,8 @@ const filters = [
     }
   }
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.setAttribute('data-active', 'false'));
-      btn.setAttribute('data-active', 'true');
-      activeFilter = btn.getAttribute('data-filter') || 'all';
-      updateVisibility();
-    });
-  });
-
   searchInput?.addEventListener('input', (e) => {
-    searchQuery = (e.target).value;
+    searchQuery = (e.target as HTMLInputElement).value;
     updateVisibility();
   });
 </script>

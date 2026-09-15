@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../i18n/ui';
-import { t, defaultLang } from '../i18n/ui';
+import { t } from '../i18n/ui';
+import { switchLangPath } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -8,27 +9,20 @@ interface Props {
 
 const { lang } = Astro.props;
 
-function getLangUrl(targetLang: Lang): string {
-  const url = new URL(Astro.request.url);
-  if (targetLang === defaultLang) {
-    url.searchParams.delete('lang');
-  } else {
-    url.searchParams.set('lang', targetLang);
-  }
-  return url.pathname + url.search;
-}
+const targetPt = switchLangPath(Astro.url.pathname, 'pt');
+const targetEn = switchLangPath(Astro.url.pathname, 'en');
 ---
 
 <div class="flex items-center gap-2 text-sm">
-  <a 
-    href={getLangUrl('pt')}
+  <a
+    href={targetPt}
     class={lang === 'pt' ? 'text-white font-medium' : 'text-github-text-muted hover:text-github-text transition-colors'}
   >
     {t(lang, 'lang.pt')}
   </a>
   <span class="text-github-border">|</span>
-  <a 
-    href={getLangUrl('en')}
+  <a
+    href={targetEn}
     class={lang === 'en' ? 'text-white font-medium' : 'text-github-text-muted hover:text-github-text transition-colors'}
   >
     {t(lang, 'lang.en')}

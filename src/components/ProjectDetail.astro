@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Lightbox from './Lightbox.astro';
+import VideoPlayer from './VideoPlayer.astro';
+import ProjectNav from './ProjectNav.astro';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { langPath } from '../i18n/utils';
+import { t, type Lang } from '../i18n/ui';
+import { Image } from "astro:assets";
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  lang: Lang;
+}
+
+const { project, lang } = Astro.props;
+const data = project.data;
+
+// The Markdown body is stored in Portuguese on the `projects` entry and in
+// English on a parallel `projects-en` entry named after the slug. Fall back to
+// the Portuguese body when a translation is missing.
+const bodyEntry = lang === 'en' ? await getEntry('projects-en', project.slug) : undefined;
+const { Content } = await (bodyEntry ?? project).render();
+
+const title = lang === 'en' && data.title_en ? data.title_en : data.title;
+const description = lang === 'en' && data.description_en ? data.description_en : data.description;
+const excerpt = lang === 'en' && data.excerpt_en ? data.excerpt_en : data.excerpt;
+
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const currentIndex = sorted.findIndex(p => p.slug === project.slug);
+const prev = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+const next = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+
+const prevNav = prev ? {
+  slug: prev.slug,
+  title: lang === 'en' && prev.data.title_en ? prev.data.title_en : prev.data.title
+} : null;
+
+const nextNav = next ? {
+  slug: next.slug,
+  title: lang === 'en' && next.data.title_en ? next.data.title_en : next.data.title
+} : null;
+
+const galleryImages = data.gallery || [];
+const videos = data.videos || [];
+---
+
+<Layout
+  title={title}
+  description={excerpt}
+  image={data.cover}
+  type="article"
+  slug={`/projects/${project.slug}/`}
+  date={data.date}
+  lang={lang}
+>
+  <a
+    href={langPath(lang, '/')}
+    class="inline-flex items-center gap-2 text-sm text-github-text-muted hover:text-white transition-colors mb-8"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+    {t(lang, 'project.back')}
+  </a>
+
+  <!-- Cover -->
+  <div class="aspect-[21/9] rounded-card overflow-hidden bg-github-bg-tertiary mb-10">
+    <Image
+      src={data.cover}
+      alt={title}
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+  </div>
+
+  <!-- Header -->
+  <header class="mb-10">
+    <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">{title}</h1>
+    <p class="text-lg text-github-text-secondary leading-relaxed max-w-3xl">{description}</p>
+  </header>
+
+  <!-- Content -->
+  <article class="prose-custom max-w-none mb-12">
+    <Content />
+  </article>
+
+  <!-- Gallery -->
+  {galleryImages.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold text-white mb-6">{t(lang, 'project.gallery')}</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {galleryImages.map((img, i) => (
+          <button
+            class="aspect-square rounded-image overflow-hidden bg-github-bg-tertiary hover:opacity-90 transition-opacity text-left"
+            data-lightbox-index={i}
+          >
+            <img
+              src={img.src}
+              alt={`${t(lang, 'project.gallery')} ${i + 1}`}
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
+        ))}
+      </div>
+      <Lightbox images={galleryImages} />
+    </section>
+  )}
+
+  <!-- Videos -->
+  {videos.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold text-white mb-6">{t(lang, 'project.videos')}</h2>
+      <div class="space-y-8">
+        {videos.map((video) => (
+          <VideoPlayer video={video} lang={lang} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Navigation -->
+  <ProjectNav prev={prevNav} next={nextNav} lang={lang} />
+</Layout>

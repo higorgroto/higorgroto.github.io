@@ -2,25 +2,18 @@ import type { Lang } from './ui';
 import { defaultLang } from './ui';
 
 export function getLang(url: URL): Lang {
-  const params = new URLSearchParams(url.search);
-  const langParam = params.get('lang');
-  if (langParam === 'en' || langParam === 'pt') {
-    return langParam;
-  }
-  return defaultLang;
+  return url.pathname === '/en' || url.pathname.startsWith('/en/')
+    ? 'en'
+    : defaultLang;
 }
 
-export function getLangFromPath(pathname: string): Lang {
-  // For static builds, we can detect from URL or fallback
-  return defaultLang;
+export function langPath(lang: Lang, path: string): string {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  return lang === 'en' ? `/en${clean}` : clean;
 }
 
-export function switchLangUrl(currentUrl: URL, targetLang: Lang): string {
-  const url = new URL(currentUrl);
-  if (targetLang === defaultLang) {
-    url.searchParams.delete('lang');
-  } else {
-    url.searchParams.set('lang', targetLang);
-  }
-  return url.pathname + url.search;
+export function switchLangPath(pathname: string, targetLang: Lang): string {
+  const base = pathname.startsWith('/en/') ? pathname.slice(3)
+    : pathname === '/en' ? '/' : pathname;
+  return targetLang === 'en' ? `/en${base === '/' ? '/' : base}` : base;
 }

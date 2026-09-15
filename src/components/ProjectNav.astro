@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../i18n/ui';
 import { t } from '../i18n/ui';
+import { langPath } from '../i18n/utils';
 
 interface Props {
   prev: { slug: string; title: string } | null;
@@ -9,14 +10,13 @@ interface Props {
 }
 
 const { prev, next, lang } = Astro.props;
-const langParam = lang === 'en' ? '?lang=en' : '';
 ---
 
 <nav class="mt-16 pt-8 border-t border-github-border-subtle">
   <div class="flex flex-col sm:flex-row justify-between gap-4">
     {prev ? (
       <a 
-        href={`/projects/${prev.slug}${langParam}`}
+        href={langPath(lang, `/projects/${prev.slug}/`)}
         class="group flex items-center gap-3 text-github-text-secondary hover:text-white transition-colors"
       >
         <svg class="w-5 h-5 shrink-0 text-github-text-muted group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
@@ -29,7 +29,7 @@ const langParam = lang === 'en' ? '?lang=en' : '';
 
     {next ? (
       <a 
-        href={`/projects/${next.slug}${langParam}`}
+        href={langPath(lang, `/projects/${next.slug}/`)}
         class="group flex items-center gap-3 text-github-text-secondary hover:text-white transition-colors text-right sm:text-left"
       >
         <div>

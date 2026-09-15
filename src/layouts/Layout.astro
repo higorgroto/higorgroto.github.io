@@ -12,10 +12,11 @@ interface Props {
   type?: 'website' | 'article';
   slug?: string;
   date?: Date;
+  lang?: Lang;
 }
 
 const { title, description, image, type, slug, date } = Astro.props;
-const lang = getLang(new URL(Astro.request.url));
+const lang = Astro.props.lang ?? getLang(Astro.url);
 ---
 
 <!DOCTYPE html>

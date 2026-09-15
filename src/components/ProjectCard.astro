@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../i18n/ui';
 import { t } from '../i18n/ui';
+import { langPath } from '../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from "astro:assets";
 
@@ -14,19 +15,13 @@ const { data, slug } = project;
 
 const title = lang === 'en' && data.title_en ? data.title_en : data.title;
 const description = lang === 'en' && data.description_en ? data.description_en : data.description;
-const statusLabel = data.status === 'concluido' 
-  ? t(lang, 'projects.status.completed') 
-  : t(lang, 'projects.status.ongoing');
-const statusColor = data.status === 'concluido' ? 'bg-github-success' : 'bg-github-warning';
-
-const langParam = lang === 'en' ? '?lang=en' : '';
 ---
 
 <article class="group rounded-card border border-github-border-subtle bg-github-bg-secondary overflow-hidden hover:border-github-border transition-colors duration-300">
-  <a href={`/projects/${slug}${langParam}`} class="block">
+  <a href={langPath(lang, `/projects/${slug}/`)} class="block">
     <div class="aspect-[16/10] overflow-hidden bg-github-bg-tertiary">
-      <Image 
-        src={data.cover} 
+      <Image
+        src={data.cover}
         alt={title}
         class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
         loading="lazy"
@@ -36,10 +31,6 @@ const langParam = lang === 'en' ? '?lang=en' : '';
     <div class="p-5">
       <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-github-accent transition-colors">{title}</h3>
       <p class="text-sm text-github-text-secondary leading-relaxed line-clamp-3">{description}</p>
-      <div class="mt-4 flex items-center gap-2">
-        <span class={`w-2 h-2 rounded-full ${statusColor}`}></span>
-        <span class="text-xs text-github-text-muted">{statusLabel}</span>
-      </div>
     </div>
   </a>
 </article>

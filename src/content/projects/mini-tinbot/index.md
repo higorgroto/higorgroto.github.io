@@ -5,7 +5,6 @@ description: "Protótipo de robô de mesa desenvolvido como Trabalho de Conclus�
 description_en: "Desktop companion robot prototype developed as an undergraduate capstone project in Mechatronics Engineering."
 excerpt: "Robô compacto baseado em ESP32-C3 com animações faciais, servomotores, áudio, interface web e atualização OTA."
 excerpt_en: "Compact ESP32-C3 robot featuring animated facial expressions, servos, audio playback, web interface and OTA firmware updates."
-status: "concluido"
 date: 2024-12-01
 cover: "./cover.webp"
 search: "mini tinbot robô esp32 c3 tcc engenharia mecatrônica servo st7789 dfplayer companion robot"

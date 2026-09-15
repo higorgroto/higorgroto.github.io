@@ -8,8 +8,6 @@ description_en: "Custom mechanical macro pad featuring 20 keys, QMK firmware, an
 excerpt: "Macro Pad mecânico com Arduino Leonardo USB-C, firmware QMK e estrutura impressa em ABS."
 excerpt_en: "Mechanical macro pad built with an Arduino Leonardo USB-C, QMK firmware, and an ABS 3D-printed enclosure."
 
-status: "concluido"
-
 date: 2024-07-12
 
 cover: "./cover.webp"
