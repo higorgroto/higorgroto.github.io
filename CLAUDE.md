@@ -128,7 +128,7 @@ Pontos importantes:
 
 Além de `projects`, existe a collection **`projects-en`** (`src/content/projects-en/`), também `type: 'content'` mas **sem schema e sem frontmatter**. Cada arquivo é nomeado pelo slug do projeto (`macro-pad.md`, `mini-tinbot.md`, ...) e contém apenas o corpo do Markdown traduzido para inglês. `ProjectDetail.astro` faz `getEntry('projects-en', project.slug)` quando `lang === 'en'` e cai no corpo em português se a tradução não existir.
 
-## 5. Os 6 projetos atuais
+## 5. Os 7 projetos atuais
 
 | Slug | Título | Data | Galeria | Vídeos |
 |---|---|---|---|---|
@@ -138,6 +138,7 @@ Além de `projects`, existe a collection **`projects-en`** (`src/content/project
 | `volante-direct-drive` | Base de Volante Direct Drive | 2026-07-01 | 14 imagens | — |
 | `esp_camera` | Câmera Digital ESP32-S3 | 2026-05-25 | 5 imagens | 2 locais (`public/videos/esp_camera/`) |
 | `voron-legacy` | Impressora 3D Voron Legacy | 2025-03-17 | 2 imagens + 11 em 4 fases (`phases`) | 3 nas fases (`public/videos/voron-legacy/`, com pôster `.webp`) |
+| `acionador-porta` | Acionador de Porta para Reconhecimento Facial | 2025-09-30 | 8 imagens | 1 local (`public/videos/acionador-porta/`, com pôster `.webp`) |
 
 Resumo técnico de cada um (para dar contexto rápido à IA sem precisar reler o Markdown inteiro):
 
@@ -147,6 +148,7 @@ Resumo técnico de cada um (para dar contexto rápido à IA sem precisar reler o
 - **Base de Volante Direct Drive** — Motor BLDC de hoverboard (36V, 350W) como force feedback, driver MKS XDrive Mini, encoder magnético MT6701, torque máx. 10 Nm, frame em PETG, comunicação USB-C.
 - **Câmera Digital ESP32-S3** — Seeed XIAO ESP32-S3 Sense (câmera + microfone + microSD na placa), display IPS 1,42" ST7789, encoder KY-040 + botão obturador, bateria LiPo com carga nativa da placa (sem BMS) e chave on/off. Foto, vídeo com áudio, galeria com exclusão de mídias, configurações (exposição, espelho, delay). Case em PLA azul/branco modelada no Fusion 360. Os originais HEIC/JPG/MP4 ficam na pasta do projeto mas são ignorados pelo `.gitignore`; os vídeos foram convertidos para H.264 720p em `public/videos/esp_camera/` (os originais eram HEVC e um passava de 100 MB).
 - **Impressora 3D Voron Legacy** — Montagem da Voron Legacy (CoreXY open source da Voron Design, guias lineares cilíndricas): frame de perfis de alumínio, peças impressas vermelho/preto, cabeçote conferido no Fusion 360, placa BIGTREETECH LPC1768 com 5× TMC2209 e tela touch BTT. Fotos de mai/2024 a mar/2025 vieram de `Downloads\Quick Share` (HEIC decodificados via WIC do Windows, tudo convertido para WebP 1600px; vídeos HEVC → H.264 720p com o ffmpeg do Stremio). Fotos quase repetidas (série do gato, placa) e um vídeo escuro foram descartados.
+- **Acionador de Porta para Reconhecimento Facial** — Módulo que recebe a requisição HTTP (`/set?channel=&state=&time=`) do servidor de um sistema de reconhecimento facial e aciona um relé 5 V ligado à fechadura (5 s padrão, firmware suporta 4 relés). Primeira versão (case branca): ESP32 DevKit por Wi-Fi + relé, com antena externa. Versão final (case preta): WT32-ETH01 (Ethernet), módulo SD para logs rotativos (até 99 arquivos de 30 KB), P4 5 V, página web com logs em tempo real, download dos arquivos, acionamento manual e OTA; NTP, log do motivo de reset e auto-restart com heap < 15 KB. PlatformIO + `WebServer_WT32_ETH01`. Mídias de `DownloadsQuick Share` (JPG → WebP 1600px, vídeo HEVC → H.264 720p).
 
 Ao adicionar um novo projeto: criar pasta em `src/content/projects/<slug>/`, incluir `index.md` com todo o frontmatter obrigatório (ver schema acima) + imagens/`cover.webp`, **e também criar `src/content/projects-en/<slug>.md` com o corpo traduzido para inglês** (só o Markdown, sem frontmatter). Depois seguir o padrão do README do repo (`npm install` → `npm run dev` para conferir → commit/push, deploy é automático).
 
