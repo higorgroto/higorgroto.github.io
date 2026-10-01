@@ -7,7 +7,7 @@ excerpt: "Um ESP32 na rede local que recebe o aviso do reconhecimento facial e a
 excerpt_en: "An ESP32 on the local network that gets the signal from facial recognition and opens the door, with SD card logging and a 3D-printed enclosure."
 date: 2025-09-30
 cover: "./cover.webp"
-search: "acionador porta door actuator opener controle de acesso access control reconhecimento facial facial recognition esp32 wt32-eth01 ethernet rede local lan relé relay 5v cartão sd sd card log logger servidor web web server http ota ntp platformio case impressão 3d 3d printed enclosure fechadura lock"
+search: "acionador porta fusion 360 door actuator opener controle de acesso access control reconhecimento facial facial recognition esp32 wt32-eth01 ethernet rede local lan relé relay 5v cartão sd sd card log logger servidor web web server http ota ntp platformio case impressão 3d 3d printed enclosure fechadura lock"
 gallery:
   - "./1.webp"
   - "./2.webp"
@@ -52,6 +52,6 @@ Para aguentar meses ligado sem intervenção, o firmware também registra o moti
 
 ## Case
 
-As duas cases foram modeladas por mim e impressas em 3D. Mais do que proteger a eletrônica, a ideia era deixar o aparelho com cara de produto pronto, com tampa parafusada, furos de fixação e aberturas no lugar certo para cada conector, em vez de uma placa solta presa com fita na parede.
+As duas cases foram modeladas no **Fusion 360** e impressas em 3D. Mais do que proteger a eletrônica, a ideia era deixar o aparelho com cara de produto pronto, com tampa parafusada, furos de fixação e aberturas no lugar certo para cada conector, em vez de uma placa solta presa com fita na parede.
 
 O firmware foi escrito em C++ com **PlatformIO**, usando a biblioteca `WebServer_WT32_ETH01` para o servidor HTTP sobre Ethernet.

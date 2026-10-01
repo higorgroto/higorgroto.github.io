@@ -25,6 +25,6 @@ To survive months of uptime without intervention, the firmware also logs the rea
 
 ## Enclosure
 
-Both enclosures were modeled by me and 3D printed. Beyond protecting the electronics, the goal was to make the device look like a finished product, with a screwed-on lid, mounting holes and openings in the right place for each connector, instead of a loose board taped to the wall.
+Both enclosures were modeled in **Fusion 360** and 3D printed. Beyond protecting the electronics, the goal was to make the device look like a finished product, with a screwed-on lid, mounting holes and openings in the right place for each connector, instead of a loose board taped to the wall.
 
 The firmware was written in C++ with **PlatformIO**, using the `WebServer_WT32_ETH01` library for the HTTP server over Ethernet.
