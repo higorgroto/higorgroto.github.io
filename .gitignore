@@ -4,3 +4,7 @@ dist/
 .DS_Store
 *.log
 .env
+# Originais brutos (HEIC/MP4) nas pastas de projeto — o site usa as versoes convertidas
+src/content/**/*.heic
+src/content/**/*.mp4
+src/content/**/*.jpg
