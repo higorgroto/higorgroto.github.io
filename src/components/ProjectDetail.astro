@@ -44,6 +44,17 @@ const nextNav = next ? {
 
 const galleryImages = data.gallery || [];
 const videos = data.videos || [];
+const phases = data.phases || [];
+
+// The lightbox browses one flat list: the main gallery first, then every
+// phase in order. Each phase remembers where its images start in that list.
+let offset = galleryImages.length;
+const phaseOffsets = phases.map((phase) => {
+  const start = offset;
+  offset += phase.gallery?.length ?? 0;
+  return start;
+});
+const lightboxImages = [...galleryImages, ...phases.flatMap((phase) => phase.gallery ?? [])];
 ---
 
 <Layout
@@ -94,8 +105,9 @@ const videos = data.videos || [];
             class="aspect-square rounded-image overflow-hidden bg-github-bg-tertiary hover:opacity-90 transition-opacity text-left"
             data-lightbox-index={i}
           >
-            <img
-              src={img.src}
+            <Image
+              src={img}
+              width={600}
               alt={`${t(lang, 'project.gallery')} ${i + 1}`}
               class="w-full h-full object-cover"
               loading="lazy"
@@ -104,7 +116,6 @@ const videos = data.videos || [];
           </button>
         ))}
       </div>
-      <Lightbox images={galleryImages} />
     </section>
   )}
 
@@ -119,6 +130,59 @@ const videos = data.videos || [];
       </div>
     </section>
   )}
+
+  <!-- Build log, grouped by phase -->
+  {phases.length > 0 && (
+    <section class="mb-12">
+      <h2 class="text-xl font-semibold text-white mb-8">{t(lang, 'project.buildLog')}</h2>
+      <ol class="space-y-12 border-l border-github-border-subtle pl-6 md:pl-8">
+        {phases.map((phase, p) => {
+          const phaseTitle = lang === 'en' ? phase.title_en : phase.title;
+          const phaseText = lang === 'en' && phase.text_en ? phase.text_en : phase.text;
+          const phaseImages = phase.gallery ?? [];
+          const phaseVideos = phase.videos ?? [];
+          return (
+            <li class="relative">
+              <span class="absolute -left-[31px] md:-left-[39px] top-1.5 w-3.5 h-3.5 rounded-full bg-github-accent ring-4 ring-github-bg" aria-hidden="true"></span>
+              <p class="text-xs font-mono uppercase tracking-wider text-github-text-muted mb-1">{t(lang, 'project.phase')} {p + 1}</p>
+              <h3 class="text-lg font-semibold text-white mb-2">{phaseTitle}</h3>
+              {phaseText && (
+                <p class="text-github-text-secondary leading-relaxed max-w-3xl mb-5">{phaseText}</p>
+              )}
+              {phaseImages.length > 0 && (
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {phaseImages.map((img, i) => (
+                    <button
+                      class="aspect-square rounded-image overflow-hidden bg-github-bg-tertiary hover:opacity-90 transition-opacity text-left"
+                      data-lightbox-index={phaseOffsets[p] + i}
+                    >
+                      <Image
+                        src={img}
+                        width={500}
+                        alt={`${phaseTitle} — ${i + 1}`}
+                        class="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+              {phaseVideos.length > 0 && (
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-5 mt-5">
+                  {phaseVideos.map((video) => (
+                    <VideoPlayer video={video} lang={lang} compact />
+                  ))}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  )}
+
+  {lightboxImages.length > 0 && <Lightbox images={lightboxImages} />}
 
   <!-- Navigation -->
   <ProjectNav prev={prevNav} next={nextNav} lang={lang} />

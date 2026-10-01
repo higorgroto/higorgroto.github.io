@@ -6,6 +6,8 @@ interface Props {
 }
 
 const { images } = Astro.props;
+// Only the URL is needed client-side (ImageMetadata also carries the local fsPath).
+const imageList = images.map((img) => ({ src: img.src }));
 ---
 
 <div id="lightbox" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-sm" role="dialog" aria-modal="true">
@@ -28,7 +30,7 @@ const { images } = Astro.props;
   <div id="lightbox-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 text-sm text-white/60 font-mono"></div>
 </div>
 
-<script define:vars={{ imageList: images }}>
+<script define:vars={{ imageList }}>
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxClose = document.getElementById('lightbox-close');

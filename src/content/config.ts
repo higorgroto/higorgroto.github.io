@@ -5,6 +5,7 @@ const videoSchema = z.object({
   src: z.string(),
   title: z.string().optional(),
   title_en: z.string().optional(),
+  poster: z.string().optional(),
 });
 
 const projects = defineCollection({
@@ -23,6 +24,21 @@ const projects = defineCollection({
       gallery: z.array(image()).optional(),
 
       videos: z.array(videoSchema).optional(),
+
+      // Optional build log: photos and videos grouped by project phase, each
+      // with its own heading and short text. Rendered after the main gallery.
+      phases: z
+        .array(
+          z.object({
+            title: z.string(),
+            title_en: z.string(),
+            text: z.string().optional(),
+            text_en: z.string().optional(),
+            gallery: z.array(image()).optional(),
+            videos: z.array(videoSchema).optional(),
+          })
+        )
+        .optional(),
       search: z.string().optional(),
     }),
 });

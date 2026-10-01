@@ -32,6 +32,10 @@ There is also a dedicated servo screen where each joint can be moved individuall
 
 ## Build
 
-The body was modeled in Fusion 360 and 3D printed, with the outer shells in white and the face, neck, arm shafts and base in black, following the look of the original Tinbot. Blender was used to render the robot and try out color combinations. Each robot comes with a 3D printed case as well, shaped to fit its body with room for the USB cable and the name engraved on the lid.
+The body was modeled in Fusion 360 and 3D printed, with the outer shells in white and the face, neck, arm shafts, chest panel and base in black, following the look of the original Tinbot. Blender was used to render the robot and try out color combinations. Each robot comes with a 3D printed case as well, shaped to fit its body with room for the USB cable and the name engraved on the lid.
+
+## From prototype to product
+
+The robot in the photos above is the result of more than a year of iterations. The first version ran on an ESP32 DevKit that was far too big to fit inside the body, so the work was a matter of shrinking the electronics and refining the mechanics until reaching the version presented for the capstone in November 2024. In 2025 the project was practically rebuilt, with new shells, a custom circuit board design and the firmware reorganized into modules, until it became something that could be handed to someone. The full process, phase by phase, is further down, after the gallery.
 
 After the capstone, Mini-Tinbot became more than an academic project: fewer than ten units were produced and sold to the company's internal staff.

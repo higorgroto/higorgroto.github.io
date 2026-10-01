@@ -7,16 +7,18 @@ interface Props {
     src: string;
     title?: string;
     title_en?: string;
+    poster?: string;
   };
   lang: Lang;
+  compact?: boolean;
 }
 
-const { video, lang } = Astro.props;
+const { video, lang, compact = false } = Astro.props;
 
 const title = lang === 'en' && video.title_en ? video.title_en : (video.title || '');
 ---
 
-<div class="my-6">
+<div class={compact ? '' : 'my-6'}>
   {video.type === 'youtube' ? (
     <div class="aspect-video rounded-image overflow-hidden bg-github-bg-tertiary">
       <iframe
@@ -33,8 +35,9 @@ const title = lang === 'en' && video.title_en ? video.title_en : (video.title ||
     <div class="flex justify-center rounded-image overflow-hidden bg-github-bg-tertiary">
       <video
         controls
-        class="max-w-full max-h-[75vh]"
-        preload="metadata"
+        class={compact ? 'w-full aspect-[9/16] object-contain bg-black' : 'max-w-full max-h-[75vh]'}
+        preload={video.poster ? 'none' : 'metadata'}
+        poster={video.poster}
         playsinline
       >
         <source src={video.src} type="video/mp4" />

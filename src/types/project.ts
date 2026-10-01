@@ -9,6 +9,7 @@ export interface ProjectFrontmatter {
   cover: string;
   gallery?: string[];
   videos?: VideoEntry[];
+  phases?: ProjectPhase[];
   search?: string;
 }
 
@@ -17,6 +18,16 @@ export interface VideoEntry {
   src: string;
   title?: string;
   title_en?: string;
+  poster?: string;
+}
+
+export interface ProjectPhase {
+  title: string;
+  title_en: string;
+  text?: string;
+  text_en?: string;
+  gallery?: string[];
+  videos?: VideoEntry[];
 }
 
 export interface Project {

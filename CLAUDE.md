@@ -104,11 +104,20 @@ const projects = defineCollection({
       src: z.string(),
       title: z.string().optional(),
       title_en: z.string().optional(),
+      poster: z.string().optional(),   // imagem de capa do vídeo (caminho em public/)
+    })).optional(),
+    phases: z.array(z.object({        // "Processo de construção", por fase
+      title: z.string(), title_en: z.string(),
+      text: z.string().optional(), text_en: z.string().optional(),
+      gallery: z.array(image()).optional(),
+      videos: z.array(videoSchema).optional(),
     })).optional(),
     search: z.string().optional(),
   }),
 });
 ```
+
+- **`phases`** (opcional, hoje só usado no `mini-tinbot`): renderizado em `ProjectDetail.astro` como uma linha do tempo "Processo de construção" depois da galeria e dos vídeos principais. Cada fase tem título/texto curto bilíngue, grade de fotos e grade de vídeos verticais (`VideoPlayer` com `compact`). O Lightbox recebe uma lista única: `gallery` primeiro, depois as fotos de cada fase em ordem. As miniaturas das grades usam `<Image width>` (só o lightbox carrega a imagem cheia).
 
 Pontos importantes:
 - **Não existe campo `tags`** no schema, apesar de um doc antigo mencionar "tags" — o que existe é `search` (string livre com palavras-chave em pt/en usada só para a busca client-side, não exibida na UI).
@@ -124,7 +133,7 @@ Além de `projects`, existe a collection **`projects-en`** (`src/content/project
 | Slug | Título | Data | Galeria | Vídeos |
 |---|---|---|---|---|
 | `macro-pad` | Macro Pad Mecânico | 2024-07-12 | 3 imagens | — |
-| `mini-tinbot` | Mini-Tinbot | 2024-12-01 | 18 imagens | — |
+| `mini-tinbot` | Mini-Tinbot | 2024-12-01 | 12 imagens + 64 em 5 fases (`phases`) | 2 + 16 nas fases (`public/videos/mini-tinbot/`, com pôster `.webp`) |
 | `volante-caseiro` | Volante Caseiro | 2026-08-28 | 12 imagens | — |
 | `volante-direct-drive` | Base de Volante Direct Drive | 2026-07-01 | 14 imagens | — |
 | `esp_camera` | Câmera Digital ESP32-S3 | 2026-05-25 | 5 imagens | 2 locais (`public/videos/esp_camera/`) |
@@ -132,7 +141,7 @@ Além de `projects`, existe a collection **`projects-en`** (`src/content/project
 Resumo técnico de cada um (para dar contexto rápido à IA sem precisar reler o Markdown inteiro):
 
 - **Macro Pad Mecânico** — 20 teclas mecânicas, matriz 4×5, Arduino Leonardo USB-C (HID nativo), diodos 1N4007 anti-ghosting, firmware QMK (via QMK MSYS), case impresso em ABS preto/branco.
-- **Mini-Tinbot** — TCC de Engenharia Mecatrônica, miniatura (~15 cm) do Tinbot; menos de 10 unidades vendidas ao pessoal interno da empresa. Lolin C3 Mini (ESP32-C3), display TFT IPS ST7789 (172×320) para expressões faciais animadas, 4 servomotores, DFPlayer Mini + SD 4 GB + alto-falante, sensor touch na base, controle remoto via página web, OTA, Wi-Fi. Firmware em C++/PlatformIO (código-fonte em `C:\Users\higor\Documents\PlatformIO\Projects\tinbot-mini`), modelagem em Fusion 360.
+- **Mini-Tinbot** — TCC de Engenharia Mecatrônica, miniatura (~15 cm) do Tinbot; menos de 10 unidades vendidas ao pessoal interno da empresa. Evolução (documentada nas `phases`): protótipos com ESP32 DevKit (jun–ago 2024) → primeira versão montada (set–out 2024) → versão do TCC com ESP32-C3 Super Mini, LEDs RGB na cabeça e USB-C na base (nov 2024) → segunda versão/produção com carcaças novas, painel frontal preto e PCB própria desenhada (2025) → estojo, menus e controle web de servos (ago 2025–2026). Mídias brutas vieram de `Downloads\Quick Share` (fotos convertidas para WebP 1600px, vídeos HEVC → H.264 720p). Lolin C3 Mini (ESP32-C3), display TFT IPS ST7789 (172×320) para expressões faciais animadas, 4 servomotores, DFPlayer Mini + SD 4 GB + alto-falante, sensor touch na base, controle remoto via página web, OTA, Wi-Fi. Firmware em C++/PlatformIO (código-fonte em `C:\Users\higor\Documents\PlatformIO\Projects\tinbot-mini`), modelagem em Fusion 360.
 - **Volante Caseiro** — Volante para simuladores com 12 botões frontais + 4 borboletas magnéticas traseiras (16 entradas digitais no total), todas programáveis. ESP32-S2 Lolin Mini usando USB nativo (`USB.h`/`USBHID.h`) com descriptor HID customizado de 16 botões — sem placa controladora externa. Estrutura impressa em PETG/PLA, adesivo vinil fibra de carbono, quick release automotivo, conector USB-C traseiro.
 - **Base de Volante Direct Drive** — Motor BLDC de hoverboard (36V, 350W) como force feedback, driver MKS XDrive Mini, encoder magnético MT6701, torque máx. 10 Nm, frame em PETG, comunicação USB-C.
 - **Câmera Digital ESP32-S3** — Seeed XIAO ESP32-S3 Sense (câmera + microfone + microSD na placa), display IPS 1,42" ST7789, encoder KY-040 + botão obturador, bateria LiPo com carga nativa da placa (sem BMS) e chave on/off. Foto, vídeo com áudio, galeria com exclusão de mídias, configurações (exposição, espelho, delay). Case em PLA azul/branco modelada no Fusion 360. Os originais HEIC/JPG/MP4 ficam na pasta do projeto mas são ignorados pelo `.gitignore`; os vídeos foram convertidos para H.264 720p em `public/videos/esp_camera/` (os originais eram HEVC e um passava de 100 MB).
